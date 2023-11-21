@@ -1,2 +1,4 @@
-base-url:
-uri-path:
+base:
+  uri:
+    host: jsonplaceholder.typicode.com
+    path: /posts

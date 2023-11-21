@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class NcacheApplication
+class GetLogApplication
 
 fun main(args: Array<String>) {
-	runApplication<NcacheApplication>(*args)
+	runApplication<GetLogApplication>(*args)
 }
