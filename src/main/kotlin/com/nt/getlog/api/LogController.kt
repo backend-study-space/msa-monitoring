@@ -17,8 +17,8 @@ class LogController(
         @PathVariable id : Long,
         request : HttpServletRequest
     ) : CommonResponse<*> {
-        val response = logService.makeSomeResponse<CommonRequest.ExceptionLogRequest, CommonLogResponse.ExceptionLogResponse>(
-            CommonRequest.ExceptionLogRequest(id, request.getHeader("host"), request.remoteAddr)
+        val response = logService.makeSomeResponse(
+            CommonRequest.DefaultLogRequest(id, request.getHeader("host"), request.remoteAddr)
         )
 
         return CommonResponse.success(response)

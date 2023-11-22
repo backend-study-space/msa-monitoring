@@ -1,4 +1,4 @@
 base:
   uri:
     host: jsonplaceholder.typicode.com
-    path: /posts
+    path: /posts/
