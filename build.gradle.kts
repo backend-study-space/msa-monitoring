@@ -35,6 +35,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("com.squareup.okhttp3:mockwebserver")
 	testImplementation("io.projectreactor:reactor-test")
+
+	implementation("io.opentelemetry:opentelemetry-api:1.24.0")
+	implementation("io.micrometer:micrometer-registry-prometheus")
 }
 
 tasks.withType<KotlinCompile> {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.util.UriComponentsBuilder
+import reactor.core.publisher.Mono
 import java.lang.IllegalArgumentException
 
 @Service
@@ -18,24 +19,22 @@ class LogServiceImpl(
     val objectMapper : ObjectMapper
 ) : LogService {
     override fun <T : CommonRequest> makeSomeResponse(request: T): CommonLogResponse {
-        return kotlin.runCatching {
-            webClient
-                .get()
-                .uri(request.id.toString())
-                .retrieve()
-                .bodyToMono<String>()
-                .block()
-                .let { objectMapper.readValue<Map<String, Any>>(it!!)
-                    .let {map ->
-                        if (map["message"] != null) {
-                            CommonLogResponse.ExceptionLogResponse(request, map, map["message"].toString())
-                        } else {
-                            CommonLogResponse.ExceptionLogResponse(request, map)
-                        }
-                    }
+
+        return webClient
+            .get()
+            .uri(request.id.toString())
+            .retrieve()
+            .bodyToMono<String>()
+            .flatMap { responseBody ->
+                val map = objectMapper.readValue<Map<String, Any>>(responseBody)
+                if (map["message"] != null) {
+                    Mono.just(CommonLogResponse.ExceptionLogResponse(request, map, map["message"].toString()))
+                } else {
+                    Mono.just(CommonLogResponse.ExceptionLogResponse(request, map))
                 }
-        }.getOrElse {
-            e -> throw IllegalArgumentException(ErrorCode.COMMON_SYSTEM_ERROR.errorMessage, e)
-        }
+            }
+            .onErrorMap { e ->
+                IllegalArgumentException(ErrorCode.COMMON_SYSTEM_ERROR.errorMessage, e)
+            }.block()!!
     }
 }

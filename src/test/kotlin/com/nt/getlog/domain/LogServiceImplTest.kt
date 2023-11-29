@@ -67,6 +67,7 @@ class LogServiceImplTest {
         val response = logService.makeSomeResponse(CommonRequest.DefaultLogRequest(1, "host", "0.0.0.0"))
 
         assertEquals(objectMapper.writeValueAsString(response.data), TEST_RESPONSE_NOT_EXIST_MESSAGE)
+
         assertNull(response.data["message"])
     }
 
