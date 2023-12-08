@@ -27,14 +27,15 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3")
+
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("com.squareup.okhttp3:mockwebserver")
-	testImplementation("io.projectreactor:reactor-test")
 
 	implementation("io.opentelemetry:opentelemetry-api:1.24.0")
 	implementation("io.micrometer:micrometer-registry-prometheus")
@@ -54,3 +55,12 @@ tasks.withType<Test> {
 tasks.bootBuildImage {
 	builder.set("paketobuildpacks/builder-jammy-base:latest")
 }
+
+dependencyManagement {
+
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
+	}
+
+}
+
