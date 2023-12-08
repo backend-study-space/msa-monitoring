@@ -894,7 +894,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "sum by(level) (rate({compose_service=~\"app-.*\"} | level != \"\" |= \"$log_keyword\" [1m]))",
+          "expr": "sum by(level) (rate({compose_service=~\"log-.*\"} | level != \"\" |= \"$log_keyword\" [1m]))",
           "legendFormat": "{{type}}",
           "queryType": "range",
           "refId": "A"
@@ -933,7 +933,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "{compose_service=~\"app-.*\"} | json | line_format \"{{.service_name}}\\t{{.severity}}\\t trace_id={{.traceid}}\\t {{.body}}\" |= \"$log_keyword\"",
+          "expr": "{compose_service=~\"log-.*\"} | json | line_format \"{{.service_name}}\\t{{.severity}}\\t trace_id={{.traceid}}\\t {{.body}}\" |= \"$log_keyword\"",
           "hide": false,
           "queryType": "range",
           "refId": "A"
